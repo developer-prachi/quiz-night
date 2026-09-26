@@ -86,3 +86,7 @@ GitHub Pages on that branch in your repo settings.
 
 Open Trivia DB has a short per-IP cooldown between requests — if you see
 "Too many requests" while testing repeatedly, wait a few seconds.
+
+---
+
+Part of my portfolio: [developer-prachi.github.io](https://developer-prachi.github.io)
