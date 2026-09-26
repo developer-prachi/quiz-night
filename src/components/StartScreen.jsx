@@ -24,8 +24,11 @@ export default function StartScreen({ onStart }) {
   }
 
   return (
-    <div className="card shadow-sm p-4">
-      <h1 className="h3 mb-1">Quiz Night</h1>
+    <div className="card shadow-sm quiz-card">
+      <p className="eyebrow">Trivia &middot; Open Trivia DB</p>
+      <h1 className="h2 mb-2">
+        Quiz <em className="accent-em">Night</em>
+      </h1>
       <p className="text-muted mb-4">Questions pulled live from the internet. Pick your settings and go.</p>
 
       <form onSubmit={handleSubmit}>

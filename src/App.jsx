@@ -2,6 +2,7 @@ import { useState } from 'react';
 import StartScreen from './components/StartScreen';
 import QuizScreen from './components/QuizScreen';
 import ResultsScreen from './components/ResultsScreen';
+import { SiteBar, SiteFooter } from './components/SiteChrome';
 import { fetchToken, fetchQuestions, shapeQuestions } from './utils/triviaApi';
 
 function getErrorMessage(responseCode) {
@@ -92,45 +93,49 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell d-flex align-items-center justify-content-center p-3">
-      <div style={{ width: '100%', maxWidth: '480px' }}>
-        {stage === 'start' && <StartScreen onStart={handleStart} />}
+    <>
+      <SiteBar title="Quiz Night" />
+      <main className="app-shell d-flex align-items-center justify-content-center">
+        <div style={{ width: '100%', maxWidth: '520px' }}>
+          {stage === 'start' && <StartScreen onStart={handleStart} />}
 
-        {stage === 'loading' && (
-          <div className="card shadow-sm p-4 text-center">
-            <div className="spinner-border text-primary mx-auto mb-3" role="status">
-              <span className="visually-hidden">Loading…</span>
+          {stage === 'loading' && (
+            <div className="card shadow-sm quiz-card text-center">
+              <div className="spinner-border text-primary mx-auto mb-3" role="status">
+                <span className="visually-hidden">Loading…</span>
+              </div>
+              <p className="mb-0">Fetching your questions…</p>
             </div>
-            <p className="mb-0">Fetching your questions…</p>
-          </div>
-        )}
+          )}
 
-        {stage === 'error' && (
-          <div className="card shadow-sm p-4">
-            <div className="alert alert-danger" role="alert">
-              {errorMessage}
+          {stage === 'error' && (
+            <div className="card shadow-sm quiz-card">
+              <div className="alert alert-danger" role="alert">
+                {errorMessage}
+              </div>
+              <button className="btn btn-primary w-100" onClick={() => handleStart(lastConfig)}>
+                Try again
+              </button>
             </div>
-            <button className="btn btn-primary w-100" onClick={() => handleStart(lastConfig)}>
-              Try again
-            </button>
-          </div>
-        )}
+          )}
 
-        {stage === 'quiz' && questions.length > 0 && (
-          <QuizScreen
-            key={questions[currentIndex].id}
-            question={questions[currentIndex]}
-            questionNumber={currentIndex + 1}
-            totalQuestions={questions.length}
-            onAnswer={handleAnswer}
-            onNext={handleNext}
-          />
-        )}
+          {stage === 'quiz' && questions.length > 0 && (
+            <QuizScreen
+              key={questions[currentIndex].id}
+              question={questions[currentIndex]}
+              questionNumber={currentIndex + 1}
+              totalQuestions={questions.length}
+              onAnswer={handleAnswer}
+              onNext={handleNext}
+            />
+          )}
 
-        {stage === 'results' && (
-          <ResultsScreen score={score} total={questions.length} onRestart={handleRestart} />
-        )}
-      </div>
-    </div>
+          {stage === 'results' && (
+            <ResultsScreen score={score} total={questions.length} onRestart={handleRestart} />
+          )}
+        </div>
+      </main>
+      <SiteFooter repo="quiz-night" />
+    </>
   );
 }

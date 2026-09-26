@@ -1,20 +1,16 @@
 // state: 'idle' | 'correct' | 'wrong' | 'muted'
 function getClassName(state) {
-  if (state === 'correct') return 'btn btn-success';
-  if (state === 'wrong') return 'btn btn-danger';
-  if (state === 'muted') return 'btn btn-outline-secondary opacity-50';
-  return 'btn btn-outline-secondary';
+  if (state === 'correct') return 'option-btn option-btn--correct';
+  if (state === 'wrong') return 'option-btn option-btn--wrong';
+  if (state === 'muted') return 'option-btn option-btn--muted';
+  return 'option-btn';
 }
 
-export default function OptionButton({ label, state, onClick, disabled }) {
+export default function OptionButton({ marker, label, state, onClick, disabled }) {
   return (
-    <button
-      type="button"
-      className={`${getClassName(state)} text-start`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {label}
+    <button type="button" className={getClassName(state)} onClick={onClick} disabled={disabled}>
+      <span className="option-btn__marker" aria-hidden="true">{marker}</span>
+      <span>{label}</span>
     </button>
   );
 }

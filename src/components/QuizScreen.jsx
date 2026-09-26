@@ -33,29 +33,30 @@ export default function QuizScreen({ question, questionNumber, totalQuestions, o
   const isUrgent = timeLeft <= 5;
 
   return (
-    <div className="card shadow-sm p-4">
-      <div className="d-flex justify-content-between text-muted small mb-2">
+    <div className="card shadow-sm quiz-card">
+      <div className="quiz-meta mb-2">
         <span>
           Question {questionNumber} of {totalQuestions}
         </span>
-        <span>
+        <span className="quiz-meta__chip">
           {question.category} &middot; {question.difficulty}
         </span>
       </div>
 
-      <div className="progress mb-3" style={{ height: '6px' }}>
+      <div className="progress mb-4" style={{ height: '6px' }}>
         <div
           className="progress-bar"
           style={{ width: `${((questionNumber - 1) / totalQuestions) * 100}%` }}
         />
       </div>
 
-      <h2 className="h5 mb-4">{question.question}</h2>
+      <h2 className="quiz-question mb-4">{question.question}</h2>
 
       <div className="d-grid gap-2 mb-4">
-        {question.options.map((option) => (
+        {question.options.map((option, index) => (
           <OptionButton
             key={option}
+            marker={'ABCD'[index]}
             label={option}
             state={getOptionState(option)}
             disabled={revealed}
@@ -64,11 +65,11 @@ export default function QuizScreen({ question, questionNumber, totalQuestions, o
         ))}
       </div>
 
-      <div className="progress mb-3" style={{ height: '6px' }}>
-        <div
-          className={`progress-bar ${isUrgent ? 'bg-danger' : 'bg-warning'}`}
-          style={{ width: `${(timeLeft / SECONDS_PER_QUESTION) * 100}%` }}
-        />
+      <div className={`timer mb-3 ${isUrgent ? 'is-urgent' : ''}`}>
+        <div className="timer__track">
+          <div className="timer__fill" style={{ width: `${(timeLeft / SECONDS_PER_QUESTION) * 100}%` }} />
+        </div>
+        <span className="timer__label" aria-label={`${timeLeft} seconds left`}>{timeLeft}s</span>
       </div>
 
       {revealed && (
